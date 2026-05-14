@@ -37,6 +37,7 @@
                 <a href="#inicio" class="nav__link">Inicio</a>
                 <a href="#servicios" class="nav__link">Servicios</a>
                 <a href="#nosotros" class="nav__link">Nosotros</a>
+                <a href="#rubros" class="nav__link">Rubros</a>
                 <a href="#clientes" class="nav__link">Clientes</a>
                 <a href="#contacto" class="nav__link">Contacto</a>
             </nav>
@@ -283,6 +284,81 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!--            SECTORS / RUBROS SLIDER           -->
+    <!-- ============================================ -->
+    <section class="sectors" id="rubros">
+        <div class="container">
+            <div class="section-header section-header--centered sectors__header">
+                <p class="section-header__tag">Con quiénes trabajamos</p>
+                <h2 class="section-header__title sectors__main-title">Soluciones para <em>cada Rubro</em></h2>
+            </div>
+            <div class="sectors__slider-area">
+                <button class="sectors__arrow sectors__arrow--prev" id="sectorPrev" aria-label="Anterior">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="sectors__viewport">
+                    <div class="sectors__track" id="sectorTrack">
+
+                        <!-- Slide 1: Minería -->
+                        <div class="sectors__slide sectors__slide--mining">
+                            <div class="sectors__slide-inner">
+                                <p class="sectors__label">Rubro</p>
+                                <h3 class="sectors__slide-title">Sector Minero</h3>
+                                <p class="sectors__slide-desc">Acompañamos a empresas del sector con soluciones contables y financieras diseñadas para la escala y complejidad de la industria extractiva.</p>
+                                <ul class="sectors__slide-list">
+                                    <li>Auditoría de proyectos</li>
+                                    <li>Control de costos operativos</li>
+                                    <li>Balance corporativo</li>
+                                    <li>Cumplimiento normativo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: PyMEs -->
+                        <div class="sectors__slide sectors__slide--pymes">
+                            <div class="sectors__slide-inner">
+                                <p class="sectors__label">Rubro</p>
+                                <h3 class="sectors__slide-title">PyMEs y Negocios</h3>
+                                <p class="sectors__slide-desc">Desde joyerías y panaderías hasta mayoristas: entendemos la dinámica diaria de los negocios y los acompañamos para que crezcan con solidez.</p>
+                                <ul class="sectors__slide-list">
+                                    <li>Registración contable</li>
+                                    <li>Liquidación impositiva</li>
+                                    <li>Análisis de rentabilidad</li>
+                                    <li>Gestión del flujo de caja</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Personas Físicas -->
+                        <div class="sectors__slide sectors__slide--personas">
+                            <div class="sectors__slide-inner">
+                                <p class="sectors__label">Rubro</p>
+                                <h3 class="sectors__slide-title">Personas Físicas</h3>
+                                <p class="sectors__slide-desc">Asesoramiento personalizado para monotributistas, asalariados e inversores que buscan ordenar su situación fiscal y hacer crecer su patrimonio.</p>
+                                <ul class="sectors__slide-list">
+                                    <li>Declaración de bienes personales</li>
+                                    <li>Impuesto a las ganancias</li>
+                                    <li>Monotributo</li>
+                                    <li>Asesoría en inversiones</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <button class="sectors__arrow sectors__arrow--next" id="sectorNext" aria-label="Siguiente">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="sectors__dots" id="sectorDots"></div>
         </div>
     </section>
 
@@ -542,6 +618,7 @@
                 <a href="#inicio">Inicio</a>
                 <a href="#servicios">Servicios</a>
                 <a href="#nosotros">Nosotros</a>
+                <a href="#rubros">Rubros</a>
                 <a href="#clientes">Clientes</a>
                 <a href="#contacto">Contacto</a>
             </div>
@@ -721,6 +798,60 @@
             currentSlide = currentSlide >= getMaxSlide() ? 0 : currentSlide + 1;
             updateSlider();
         }, 4000);
+
+        // ===== SECTOR SLIDER =====
+        (function () {
+            const sectorTrack = document.getElementById('sectorTrack');
+            const sectorPrev = document.getElementById('sectorPrev');
+            const sectorNext = document.getElementById('sectorNext');
+            const sectorDotsContainer = document.getElementById('sectorDots');
+            const sectorSlides = sectorTrack.querySelectorAll('.sectors__slide');
+            let currentSector = 0;
+            const totalSectors = sectorSlides.length;
+
+            function createSectorDots() {
+                sectorDotsContainer.innerHTML = '';
+                for (let i = 0; i < totalSectors; i++) {
+                    const dot = document.createElement('button');
+                    dot.classList.add('sectors__dot');
+                    dot.setAttribute('aria-label', `Ir al rubro ${i + 1}`);
+                    dot.addEventListener('click', () => { currentSector = i; updateSectorSlider(); });
+                    sectorDotsContainer.appendChild(dot);
+                }
+            }
+
+            function updateSectorSlider() {
+                sectorTrack.style.transform = `translateX(-${currentSector * 100}%)`;
+                sectorDotsContainer.querySelectorAll('.sectors__dot').forEach((dot, i) => {
+                    dot.classList.toggle('sectors__dot--active', i === currentSector);
+                });
+            }
+
+            sectorPrev.addEventListener('click', () => {
+                currentSector = currentSector > 0 ? currentSector - 1 : totalSectors - 1;
+                updateSectorSlider();
+            });
+            sectorNext.addEventListener('click', () => {
+                currentSector = currentSector < totalSectors - 1 ? currentSector + 1 : 0;
+                updateSectorSlider();
+            });
+
+            // Swipe support for mobile
+            let touchStartX = 0;
+            sectorTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            sectorTrack.addEventListener('touchend', e => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    currentSector = diff > 0
+                        ? (currentSector < totalSectors - 1 ? currentSector + 1 : 0)
+                        : (currentSector > 0 ? currentSector - 1 : totalSectors - 1);
+                    updateSectorSlider();
+                }
+            }, { passive: true });
+
+            createSectorDots();
+            updateSectorSlider();
+        })();
 
         // ===== FORM SUBMISSION via Web3Forms (free, no backend needed) =====
         document.getElementById('contactForm').addEventListener('submit', async function (e) {

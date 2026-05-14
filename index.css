@@ -849,6 +849,284 @@ ul {
 }
 
 /* ============================================
+   SECTORS SLIDER (Rubros)
+   ============================================ */
+.sectors {
+    padding: var(--space-5xl) 0;
+    background: var(--color-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.sectors::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse at 15% 60%, rgba(245, 166, 35, 0.07) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 30%, rgba(123, 95, 255, 0.06) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.sectors__header {
+    position: relative;
+    z-index: 1;
+}
+
+.sectors__main-title {
+    color: var(--color-white) !important;
+}
+
+.sectors .section-header__tag {
+    color: var(--color-accent);
+}
+
+.sectors__slider-area {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    position: relative;
+    z-index: 1;
+}
+
+.sectors__viewport {
+    flex: 1;
+    overflow: hidden;
+}
+
+.sectors__track {
+    display: flex;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sectors__slide {
+    flex: 0 0 100%;
+    padding: 0 var(--space-xl);
+    display: flex;
+    justify-content: center;
+}
+
+.sectors__slide-inner {
+    width: 77%;
+    border-radius: var(--radius-xl);
+    padding: var(--space-3xl) var(--space-4xl);
+    position: relative;
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    cursor: default;
+}
+
+/* === Color themes per slide === */
+.sectors__slide--mining .sectors__slide-inner {
+    background: linear-gradient(135deg, #F5A623 0%, #E08C10 100%);
+    color: #1A1200;
+}
+
+.sectors__slide--pymes .sectors__slide-inner {
+    background: linear-gradient(135deg, #2D7DD2 0%, #1A5FA8 100%);
+    color: #FFFFFF;
+}
+
+.sectors__slide--personas .sectors__slide-inner {
+    background: linear-gradient(135deg, #7B5FFF 0%, #5038D8 100%);
+    color: #FFFFFF;
+}
+
+/* === Glow on hover === */
+.sectors__slide--mining .sectors__slide-inner:hover {
+    box-shadow:
+        0 0 0 1px rgba(245, 166, 35, 0.4),
+        0 0 50px rgba(245, 166, 35, 0.35),
+        0 24px 48px rgba(245, 166, 35, 0.2);
+    transform: translateY(-3px);
+}
+
+.sectors__slide--pymes .sectors__slide-inner:hover {
+    box-shadow:
+        0 0 0 1px rgba(45, 125, 210, 0.4),
+        0 0 50px rgba(45, 125, 210, 0.35),
+        0 24px 48px rgba(45, 125, 210, 0.2);
+    transform: translateY(-3px);
+}
+
+.sectors__slide--personas .sectors__slide-inner:hover {
+    box-shadow:
+        0 0 0 1px rgba(123, 95, 255, 0.4),
+        0 0 50px rgba(123, 95, 255, 0.35),
+        0 24px 48px rgba(123, 95, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+/* === Decorative top line === */
+.sectors__slide-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--space-3xl);
+    right: var(--space-3xl);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 1px;
+}
+
+.sectors__slide--mining .sectors__slide-inner::before {
+    background: rgba(26, 18, 0, 0.18);
+}
+
+/* === Slide text content === */
+.sectors__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: var(--space-md);
+}
+
+.sectors__slide-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: var(--space-lg);
+}
+
+.sectors__slide-desc {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-xl);
+    opacity: 0.88;
+    max-width: 580px;
+}
+
+.sectors__slide-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm) var(--space-2xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sectors__slide--mining .sectors__slide-list {
+    border-top-color: rgba(26, 18, 0, 0.15);
+}
+
+.sectors__slide-list li {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.82;
+    position: relative;
+    padding-left: 18px;
+}
+
+.sectors__slide-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    opacity: 0.5;
+    font-size: 0.8rem;
+}
+
+/* === Arrow buttons === */
+.sectors__arrow {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-base);
+    color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+.sectors__arrow svg {
+    width: 22px;
+    height: 22px;
+}
+
+.sectors__arrow:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-primary);
+    transform: scale(1.08);
+}
+
+/* === Dots === */
+.sectors__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+    position: relative;
+    z-index: 1;
+}
+
+.sectors__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: 0;
+}
+
+.sectors__dot--active {
+    width: 28px;
+    border-radius: 4px;
+    background: var(--color-accent);
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+    .sectors__slide-inner {
+        width: 88%;
+        padding: var(--space-2xl) var(--space-2xl);
+    }
+}
+
+@media (max-width: 600px) {
+    .sectors__slide {
+        padding: 0 var(--space-sm);
+    }
+
+    .sectors__slide-inner {
+        width: 96%;
+        padding: var(--space-xl) var(--space-lg);
+    }
+
+    .sectors__slide-title {
+        font-size: 1.8rem;
+    }
+
+    .sectors__slide-desc {
+        font-size: 0.95rem;
+    }
+
+    .sectors__arrow {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sectors__arrow svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .sectors__slider-area {
+        gap: var(--space-sm);
+    }
+}
+
+/* ============================================
    CLIENTS SLIDER
    ============================================ */
 .clients {
