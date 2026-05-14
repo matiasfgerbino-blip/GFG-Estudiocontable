@@ -895,6 +895,7 @@ ul {
 .sectors__viewport {
     flex: 1;
     overflow: hidden;
+    min-width: 0; /* Prevent flex overflow on mobile */
 }
 
 .sectors__track {
@@ -1094,13 +1095,21 @@ ul {
 }
 
 @media (max-width: 600px) {
+    .sectors__slider-area {
+        gap: var(--space-sm);
+        overflow: hidden; /* Extra clip safety on mobile */
+    }
+
     .sectors__slide {
         padding: 0 var(--space-sm);
+        flex: 0 0 100%;
+        min-width: 100%; /* Anchors slide width to viewport */
     }
 
     .sectors__slide-inner {
-        width: 96%;
+        width: 100%;
         padding: var(--space-xl) var(--space-lg);
+        box-sizing: border-box;
     }
 
     .sectors__slide-title {
@@ -1111,18 +1120,19 @@ ul {
         font-size: 0.95rem;
     }
 
+    .sectors__slide-list {
+        grid-template-columns: 1fr; /* Single column — no text cut-off */
+    }
+
     .sectors__arrow {
         width: 40px;
         height: 40px;
+        flex-shrink: 0;
     }
 
     .sectors__arrow svg {
         width: 18px;
         height: 18px;
-    }
-
-    .sectors__slider-area {
-        gap: var(--space-sm);
     }
 }
 
