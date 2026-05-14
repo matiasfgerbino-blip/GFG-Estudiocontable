@@ -169,7 +169,7 @@ ul {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    z-index: 1001;
+    z-index: 10000; /* Must be above nav overlay (9999) */
 }
 
 .logo__text {
@@ -252,7 +252,7 @@ ul {
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 10000; /* Must be above nav overlay (9999) */
     padding: var(--space-sm);
     flex-direction: column;
     gap: 5px;
@@ -1668,6 +1668,13 @@ ul {
 }
 
 @media (max-width: 768px) {
+    /* Remove backdrop-filter on mobile — it creates a containing block
+       that traps position:fixed children inside the header strip */
+    .header--scrolled {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
     .header__nav {
         display: none;
         position: fixed;
@@ -1675,12 +1682,14 @@ ul {
         left: 0;
         right: 0;
         bottom: 0;
+        min-height: 100vh;
         background: var(--color-primary);
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: var(--space-xl);
-        z-index: 1000;
+        z-index: 9999;
+        padding-top: 70px; /* Space for the logo / close button */
     }
 
     .header__nav.nav--open {
